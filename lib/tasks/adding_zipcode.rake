@@ -10,8 +10,7 @@ task :fetch_zip_code => :environment do
     master_url = "http://www.city-data.com/#{href}"
     doc = Nokogiri::HTML(open(master_url))
     doc.css(".col-xs-6").each do |zipcode|
-      Zipcode.create("zip_name" => zipcode.text.gsub('zip code', ''))
-      debugger
+     Zipcode.create("zipcode" => zipcode.text.gsub('zip code', ''))
     end
   end
 end

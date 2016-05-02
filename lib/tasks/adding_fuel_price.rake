@@ -5,12 +5,10 @@ task :fetching_fuel_price => :environment do
 	agent.get("http://www.gasbuddy.com/")
 	form = agent.page.forms.first
 	Zipcode.all.each do |zipcode|
-	  form.search  = zipcode[:zip_name]
+	  form.search  = zipcode[:zipcode]
 	  form.submit	 
 	  avgprice = agent.page.search("#trend-by-site .text-center")[0].text.split.last
       lowprice = agent.page.search("#trend-by-site .text-center")[1].text.split.last 
-      debugger
-      ZipcodeFuelPrice.create("avg_price" => avgprice ,"lowest_price" =>lowprice )
-      ZipcodeFuelPrice.create("zipcodes_id" => zipcode.id )   
+      ZipcodeFuelPrice.create("avg_price" => avgprice ,"lowest_price" =>lowprice ,"zipcodes_id" => zipcode.id) 
 	end
 end
